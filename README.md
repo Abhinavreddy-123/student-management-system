@@ -1,57 +1,79 @@
 # Student Management System
 
-A Student Management System built using **Python, FastAPI, PostgreSQL, SQLAlchemy, and Podman**. The application provides REST APIs to manage students and courses, retrieve course-wise student information, and combine student and course details through relational queries.
+A full-stack Student Management System built with **FastAPI, PostgreSQL, SQLAlchemy, React, and Podman**. The application provides REST APIs and a web interface for managing students, courses, and course enrollments.
 
-## Technology Stack
+## Tech Stack
 
-| Component               | Technology             |
-| ----------------------- | ---------------------- |
-| Programming Language    | Python 3.12            |
-| Backend Framework       | FastAPI                |
-| Database                | PostgreSQL 18          |
-| ORM                     | SQLAlchemy             |
-| Database Driver         | Psycopg 3              |
-| Data Validation         | Pydantic               |
-| ASGI Server             | Uvicorn                |
-| Containerization        | Podman                 |
-| Container Orchestration | Podman Compose         |
-| API Documentation       | Swagger UI             |
-| Version Control         | Git and GitHub         |
-| Frontend                | React + Vite (planned) |
+### Backend
+
+- Python 3.12
+- FastAPI
+- SQLAlchemy ORM
+- PostgreSQL 18
+- Pydantic
+- Python logging with rotating log files
+
+### Frontend
+
+- React 19
+- Vite
+- JavaScript
+- CSS
+- Lucide React icons
+
+### Infrastructure and Testing
+
+- Podman and Podman Compose
+- Bruno for API testing
+- Git and GitHub
 
 ## Features
 
 ### Student Management
 
-- Create a new student.
-- Retrieve all students.
-- Retrieve a student by ID.
-- Update student information.
-- Delete a student.
-- Validate student email addresses and prevent duplicate emails.
-- Associate students with courses.
+- View the student list.
+- Add new students.
+- Search and filter students.
+- View student details, including course assignment.
 
 ### Course Management
 
-- Create a new course.
-- Retrieve all courses.
-- Retrieve a course by ID.
-- Update course information.
-- Delete courses while protecting existing student-course relationships.
-- Retrieve all students enrolled in a specific course.
+- View available courses.
+- Add, edit, and delete courses.
+- Search courses.
+- View the number of students assigned to each course.
 
-### Student-Course Relationships
+### Enrollment Management
 
-- Retrieve combined student and course information using SQL JOIN operations.
-- Maintain a one-to-many relationship between courses and students.
+- View student enrollment status.
+- Assign students to courses.
+- Change a student's assigned course.
+- Remove a student's course assignment.
+- Filter students by course and enrollment status.
 
-### Database and Infrastructure
+### Dashboard
 
-- PostgreSQL relational database with primary keys and foreign-key constraints.
-- SQLAlchemy ORM for database operations.
+- View total students, courses, and enrollments.
+- View students without course assignments.
+- View recent students.
+- View course-wise enrollment information.
+
+### Logging and Error Handling
+
+- Python's built-in logging module.
+- Real-time application logs in the console.
+- Rotating log file using `RotatingFileHandler`.
+- HTTP request and response logging.
+- Exception logging with traceback information.
+- Health-check endpoint for database connectivity.
+
+### Database and Containerization
+
+- PostgreSQL database running in a Podman container.
+- FastAPI backend running in a separate container.
+- Persistent PostgreSQL named volume.
+- Database health check before starting the backend.
 - Environment-based database configuration.
-- Persistent PostgreSQL storage using Podman volumes.
-- Containerized backend and database services using Podman Compose.
 
 ## Project Structure
 
@@ -60,188 +82,232 @@ student-management-system/
 │
 ├── backend/
 │   ├── routers/
-│   │   ├── __init__.py
 │   │   ├── students.py
 │   │   ├── courses.py
 │   │   └── student_courses.py
-│   │
-│   ├── .env.example
-│   ├── .dockerignore
-│   ├── Dockerfile
-│   ├── database.py
+│   ├── logs/
+│   │   ├── __init__.py
+│   │   └── logging_config.py
 │   ├── main.py
+│   ├── database.py
 │   ├── models.py
 │   ├── schemas.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── .env.example
 │
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Students.jsx
+│   │   │   ├── Courses.jsx
+│   │   │   └── Enrollments.jsx
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
+│
+├── bruno/
+│
+├── compose.yml
+├── .env.example
 ├── .gitignore
-├── compose.yaml
-├── README.md
-└── student_management.dump (local database backup; not committed)
+└── README.md
 ```
 
-## Database Design
+## Prerequisites
 
-The application uses two main tables:
+Install the following before running the application:
 
-**Students**
-
-- student_id (Primary Key)
-- first_name
-- last_name
-- email
-- age
-- gender
-- course_id (Foreign Key)
-- enrollment_date
-
-**Courses**
-
-- course_id (Primary Key)
-- course_name
-- duration
-- department
-
-A course can have multiple students, establishing a one-to-many relationship.
-
-## Running the Application with Podman
-
-### Prerequisites
-
+- Python 3.12
+- Node.js and npm
 - Podman Desktop
-- Podman Compose
 - Git
+
+## Setup and Run
 
 ### 1. Clone the repository
 
-```bash
-git clone https://github.com/Abhinavreddy-123/student-management-system.git
+```cmd
+git clone YOUR_GITHUB_REPOSITORY_URL
 cd student-management-system
 ```
 
+Replace `YOUR_GITHUB_REPOSITORY_URL` with the repository's Git URL.
+
 ### 2. Configure environment variables
 
-Create a `.env` file in the project root:
+Create the root `.env` file:
 
-```env
-DB_PASSWORD=your_postgresql_password
+```cmd
+copy .env.example .env
 ```
 
-Create `backend/.env` using `backend/.env.example` as a template. Configure the database connection for local development:
+Create the backend `.env` file:
 
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=student_management
-DB_USER=postgres
-DB_PASSWORD=your_postgresql_password
+```cmd
+copy backend\.env.example backend\.env
 ```
 
-Use the same PostgreSQL password in both files.
+Open both files and set the same PostgreSQL password in each.
 
-### 3. Start the application
+Do not commit either `.env` file.
 
-From the project root, execute:
+### 3. Start Podman
 
-```bash
+```cmd
+podman machine start
+```
+
+### 4. Build and start the containers
+
+Run this command from the project root:
+
+```cmd
 podman compose up -d --build
 ```
 
 This starts:
 
-- PostgreSQL database container (`student-db`)
-- FastAPI backend container (`student-api`)
+| Service    | Container     | Host port |
+| ---------- | ------------- | --------: |
+| PostgreSQL | `student-db`  |      5433 |
+| FastAPI    | `student-api` |      8000 |
 
-The PostgreSQL database uses a persistent Podman volume.
+Check the containers:
 
-### 4. Access the application
-
-- API homepage: http://localhost:8000
-- Swagger UI documentation: http://localhost:8000/docs
-- API health endpoint: http://localhost:8000/health
-
-### 5. Stop the application
-
-```bash
-podman compose down
+```cmd
+podman ps
 ```
 
-To stop the containers without removing them:
+The database health check ensures that PostgreSQL is ready before the backend starts.
 
-```bash
+### 5. Verify the backend
+
+Open the following URLs:
+
+- API root: http://localhost:8000/
+- Swagger API documentation: http://localhost:8000/docs
+- Health check: http://localhost:8000/health
+
+### 6. Start the frontend
+
+Open a separate terminal:
+
+```cmd
+cd frontend
+npm install
+npm run dev
+```
+
+Open the Vite development URL:
+
+http://localhost:5173/
+
+The Vite development server proxies frontend API requests to the FastAPI backend at `http://localhost:8000`.
+
+Keep the backend containers running while using the frontend.
+
+## API Endpoints
+
+| Method | Endpoint                        | Description                                    |
+| ------ | ------------------------------- | ---------------------------------------------- |
+| GET    | `/students/`                    | Retrieve all students                          |
+| POST   | `/students/`                    | Create a student                               |
+| GET    | `/students/{student_id}`        | Retrieve a student                             |
+| PUT    | `/students/{student_id}`        | Update a student                               |
+| DELETE | `/students/{student_id}`        | Delete a student                               |
+| GET    | `/courses/`                     | Retrieve all courses                           |
+| POST   | `/courses/`                     | Create a course                                |
+| GET    | `/courses/{course_id}`          | Retrieve a course                              |
+| PUT    | `/courses/{course_id}`          | Update a course                                |
+| DELETE | `/courses/{course_id}`          | Delete a course                                |
+| GET    | `/courses/{course_id}/students` | Retrieve students in a course                  |
+| GET    | `/student-courses`              | Retrieve student-course enrollment information |
+| GET    | `/health`                       | Check application and database health          |
+
+## API Testing with Bruno
+
+Bruno is used to test the backend REST APIs.
+
+The API testing collection is maintained in the `bruno/` directory.
+
+Tests cover:
+
+- Student CRUD operations.
+- Course CRUD operations.
+- Retrieving students by course.
+- Retrieving enrollment information.
+- API response status codes and error handling.
+
+Alternatively, the interactive Swagger documentation is available at:
+
+http://localhost:8000/docs
+
+## Application Logging
+
+Application logs are implemented using Python's built-in `logging` module.
+
+The logging configuration includes:
+
+- Console logging for real-time monitoring.
+- Rotating file logging.
+- Request and response information.
+- Error messages and exception tracebacks.
+- Database-related failure information.
+
+To monitor backend logs in real time:
+
+```cmd
+podman compose logs -f backend
+```
+
+The application log file is generated under `backend/logs/` inside the backend container.
+
+## Database Persistence
+
+PostgreSQL data is stored in a named Podman volume.
+
+Stopping or removing the containers does not require deleting the database volume. To stop the application while retaining the containers and database:
+
+```cmd
 podman compose stop
 ```
 
-The persistent database volume is retained when using `podman compose down`.
+To start the existing containers again:
 
-## Running the Backend Locally
-
-For local development without containers:
-
-1. Navigate to the backend directory.
-2. Create and activate a Python virtual environment.
-3. Install dependencies.
-
-```bash
-cd backend
-python -m venv .venv
+```cmd
+podman compose start
 ```
 
-Activate on Windows:
+To rebuild and start the application after code or configuration changes:
 
-```bash
-.venv\Scripts\activate
+```cmd
+podman compose up -d --build
 ```
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Configure `backend/.env` to connect to your local PostgreSQL instance, then run:
-
-```bash
-uvicorn main:app --reload
-```
-
-The API will be available at http://localhost:8000.
-
-## API Overview
-
-| Method | Endpoint                        | Description                                      |
-| ------ | ------------------------------- | ------------------------------------------------ |
-| GET    | `/students/`                    | Retrieve all students                            |
-| GET    | `/students/{student_id}`        | Retrieve a student                               |
-| POST   | `/students/`                    | Create a student                                 |
-| PUT    | `/students/{student_id}`        | Update a student                                 |
-| DELETE | `/students/{student_id}`        | Delete a student                                 |
-| GET    | `/courses/`                     | Retrieve all courses                             |
-| GET    | `/courses/{course_id}`          | Retrieve a course                                |
-| POST   | `/courses/`                     | Create a course                                  |
-| PUT    | `/courses/{course_id}`          | Update a course                                  |
-| DELETE | `/courses/{course_id}`          | Delete a course                                  |
-| GET    | `/courses/{course_id}/students` | Retrieve students enrolled in a course           |
-| GET    | `/student-courses`              | Retrieve combined student and course information |
+**Important:** Do not use `podman compose down -v` unless you intentionally want to delete the persistent database volume and its data.
 
 ## Development Status
 
-- [x] PostgreSQL database setup
-- [x] Database schema and relationships
-- [x] FastAPI backend implementation
-- [x] Student CRUD APIs
-- [x] Course CRUD APIs
-- [x] Course-wise student retrieval
-- [x] Student-course JOIN API
-- [x] Database configuration using environment variables
+- [x] FastAPI backend
+- [x] PostgreSQL database integration
+- [x] SQLAlchemy ORM models
+- [x] Student and course APIs
+- [x] Student-course enrollment functionality
 - [x] Podman containerization
-- [x] Podman Compose configuration
-- [x] Database migration into PostgreSQL container
-- [x] GitHub repository setup
-- [ ] Comprehensive API testing
-- [ ] React + Vite frontend development
-- [ ] Frontend and backend integration
+- [x] Database persistence using a named volume
+- [x] Python-based application logging
+- [x] API testing with Bruno
+- [x] React frontend
+- [x] Dashboard
+- [x] Student Management interface
+- [x] Course Management interface
+- [x] Enrollment Management interface
 
 ## Repository
 
-GitHub: https://github.com/Abhinavreddy-123/student-management-system
+GitHub: Add or retain your repository URL here.

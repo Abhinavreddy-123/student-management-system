@@ -1,5 +1,4 @@
-
-# Python virtual environment
+# Python virtual environments
 .venv/
 venv/
 env/
@@ -7,20 +6,30 @@ env/
 # Python cache files
 __pycache__/
 *.py[cod]
-*.pyo
+*.pyo/
+
+# Python testing and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
 
 # Environment variables and secrets
 .env
 .env.*
 !.env.example
 
+# Node.js and frontend build files
+node_modules/
+dist/
+dist-ssr/
+coverage/
+
 # IDE settings
 .vscode/
 .idea/
-
-# Frontend dependencies and build files
-node_modules/
-dist/
 
 # Operating system files
 .DS_Store
@@ -29,6 +38,6 @@ Thumbs.db
 # Logs
 *.log
 
-# Database backup files
+# Database backups
 *.dump
 *.backup
