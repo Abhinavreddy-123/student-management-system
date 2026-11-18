@@ -22,6 +22,7 @@ class CourseResponse(CourseBase): #it inherits everything from the coursebase an
     course_id: int
 
     model_config = ConfigDict(from_attributes=True)
+    #When validating data, you are allowed to read values from the attributes of a Python object, not just from a dictionary.
 
 
 # -------------------------

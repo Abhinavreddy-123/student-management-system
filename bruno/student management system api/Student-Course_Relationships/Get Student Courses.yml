@@ -1,0 +1,49 @@
+info:
+  name: Get Student Courses
+  type: http
+  seq: 1
+  tags:
+    - Student-Course_Relationships
+
+http:
+  method: GET
+  url: "{{baseUrl}}/student-courses"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Successful Response
+    request:
+      url: "{{baseUrl}}/student-courses"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "student_id": 0,
+              "first_name": "",
+              "last_name": "",
+              "email": "",
+              "age": "",
+              "gender": "",
+              "course_id": "",
+              "enrollment_date": "",
+              "course_name": "",
+              "duration": "",
+              "department": ""
+            }
+          ]

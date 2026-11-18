@@ -1,0 +1,28 @@
+opencollection: 1.0.0
+
+info:
+  name: student management system api
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git
+    openapi:
+      - sourceUrl: http://localhost:8000/openapi.json
+        groupBy: tags
+        lastSyncDate: 2026-11-18T16:33:39.000Z
+        specHash: 9e5036238cc5a9f2b8f4c2cb107d1045
+        autoCheck: true
+        autoCheckInterval: 5

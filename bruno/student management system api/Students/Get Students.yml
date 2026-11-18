@@ -1,0 +1,46 @@
+info:
+  name: Get Students
+  type: http
+  seq: 1
+  tags:
+    - Students
+
+http:
+  method: GET
+  url: "{{baseUrl}}/students/"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Successful Response
+    request:
+      url: "{{baseUrl}}/students/"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "first_name": "",
+              "last_name": "",
+              "email": "",
+              "age": "",
+              "gender": "",
+              "course_id": "",
+              "student_id": 0,
+              "enrollment_date": ""
+            }
+          ]

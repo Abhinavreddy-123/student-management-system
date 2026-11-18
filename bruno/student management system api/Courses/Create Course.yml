@@ -1,0 +1,89 @@
+info:
+  name: Create Course
+  type: http
+  seq: 2
+  tags:
+    - Courses
+
+http:
+  method: POST
+  url: "{{baseUrl}}/courses/"
+  body:
+    type: json
+    data: |-
+      {
+        "course_name": "",
+        "duration": "",
+        "department": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 201 Response
+    description: Successful Response
+    request:
+      url: "{{baseUrl}}/courses/"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "course_name": "",
+            "duration": "",
+            "department": ""
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "course_name": "",
+            "duration": "",
+            "department": "",
+            "course_id": 0
+          }
+  - name: 422 Response
+    description: Validation Error
+    request:
+      url: "{{baseUrl}}/courses/"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "course_name": "",
+            "duration": "",
+            "department": ""
+          }
+    response:
+      status: 422
+      statusText: Unprocessable Entity
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "detail": [
+              {
+                "loc": [],
+                "msg": "",
+                "type": "",
+                "input": "",
+                "ctx": {}
+              }
+            ]
+          }

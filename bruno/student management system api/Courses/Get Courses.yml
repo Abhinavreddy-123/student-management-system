@@ -1,0 +1,42 @@
+info:
+  name: Get Courses
+  type: http
+  seq: 1
+  tags:
+    - Courses
+
+http:
+  method: GET
+  url: "{{baseUrl}}/courses/"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Successful Response
+    request:
+      url: "{{baseUrl}}/courses/"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "course_name": "",
+              "duration": "",
+              "department": "",
+              "course_id": 0
+            }
+          ]

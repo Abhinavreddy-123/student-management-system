@@ -1,0 +1,81 @@
+info:
+  name: Get Student
+  type: http
+  seq: 3
+  tags:
+    - Students
+
+http:
+  method: GET
+  url: "{{baseUrl}}/students/:student_id"
+  params:
+    - name: student_id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Successful Response
+    request:
+      url: "{{baseUrl}}/students/:student_id"
+      method: GET
+      params:
+        - name: student_id
+          value: ""
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "age": "",
+            "gender": "",
+            "course_id": "",
+            "student_id": 0,
+            "enrollment_date": ""
+          }
+  - name: 422 Response
+    description: Validation Error
+    request:
+      url: "{{baseUrl}}/students/:student_id"
+      method: GET
+      params:
+        - name: student_id
+          value: ""
+          type: path
+    response:
+      status: 422
+      statusText: Unprocessable Entity
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "detail": [
+              {
+                "loc": [],
+                "msg": "",
+                "type": "",
+                "input": "",
+                "ctx": {}
+              }
+            ]
+          }
