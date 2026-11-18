@@ -14,11 +14,11 @@ class CourseBase(BaseModel):
     department: Optional[str] = Field(default=None, max_length=100)
 
 
-class CourseCreate(CourseBase):
+class CourseCreate(CourseBase): #totally inherits everything from the coursebase.
     pass
 
 
-class CourseResponse(CourseBase):
+class CourseResponse(CourseBase): #it inherits everything from the coursebase and adds the course_id field.
     course_id: int
 
     model_config = ConfigDict(from_attributes=True)
