@@ -7,14 +7,13 @@ info:
 
 http:
   method: POST
-  url: "{{baseUrl}}/courses/"
+  url: http://localhost:8000/courses/
   body:
     type: json
     data: |-
       {
-        "course_name": "",
-        "duration": "",
-        "department": ""
+        "course_name": "Artificial Intelligence",
+        "duration": "6 Months"
       }
   auth: inherit
 

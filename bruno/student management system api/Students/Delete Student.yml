@@ -7,11 +7,7 @@ info:
 
 http:
   method: DELETE
-  url: "{{baseUrl}}/students/:student_id"
-  params:
-    - name: student_id
-      value: ""
-      type: path
+  url: http://localhost:8000/students/1
   auth: inherit
 
 settings:

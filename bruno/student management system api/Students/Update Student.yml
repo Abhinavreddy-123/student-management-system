@@ -7,21 +7,17 @@ info:
 
 http:
   method: PUT
-  url: "{{baseUrl}}/students/:student_id"
-  params:
-    - name: student_id
-      value: ""
-      type: path
+  url: http://localhost:8000/students/1
   body:
     type: json
     data: |-
       {
-        "first_name": "",
-        "last_name": "",
-        "email": "",
-        "age": "",
-        "gender": "",
-        "course_id": ""
+        "first_name": "Rahul",
+        "last_name": "Sharma",
+        "email": "rahul.sharma@example.com",
+        "age": 22,
+        "gender": "Male",
+        "course_id": 1
       }
   auth: inherit
 

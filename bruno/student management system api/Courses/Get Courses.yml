@@ -7,7 +7,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/courses/"
+  url: http://localhost:8000/courses/
   auth: inherit
 
 settings:

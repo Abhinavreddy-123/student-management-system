@@ -7,18 +7,13 @@ info:
 
 http:
   method: PUT
-  url: "{{baseUrl}}/courses/:course_id"
-  params:
-    - name: course_id
-      value: ""
-      type: path
+  url: http://localhost:8000/courses/6
   body:
     type: json
     data: |-
       {
-        "course_name": "",
-        "duration": "",
-        "department": ""
+        "course_name": "Artificial Intelligence and Machine Learning",
+        "duration": "12 Months"
       }
   auth: inherit
 
